@@ -1,13 +1,10 @@
-(define (domain meucafebistro)
+(define (domain meucafebistroNUM)
 
-    (:requirements :strips :typing :negative-preconditions)
+    (:requirements :strips :typing :negative-preconditions :numeric-fluents)
 
     (:types capsula caneca cafeteira agua nivel - objeto)
 
     (:predicates 
-        (maiornivel ?dzao - nivel)
-        (tem-agua ?c - cafeteira ?dx - nivel)
-        (menorque ?dx ?dy - nivel)
         (capsula-usada ?cap - capsula)
         (segurando ?o - objeto)
         (tem-capsula ?c - cafeteira ?cap - capsula)
@@ -19,19 +16,20 @@
         (capsula-bloqueada ?cap - capsula)
     )
 
-    ;; achar constantes e colocar como o maior nivel
- 
-
-    (:action COLOCARAGUA
-
-        :parameters (?c - cafeteira ?nivel ?maiornivel - nivel)
-    
-        :precondition (and (not (tem-agua ?c ?nivel) )
-                            (not (menorque ?maiornivel ?nivel)))
-
-        :effect  (tem-agua ?c ?maiornivel)
-            
+    (:functions
+        (nivelatual ?c - cafeteira)
     )
+    
+
+; (:action COLOCARAGUA
+;      :parameters (?c - cafeteira ?nivel ?proximonivel - nivel)
+;    
+;       :precondition (and (not (tem-agua ?c ?nivel) )
+;                            (not (menorque ?proximonivel ?nivel)))
+;
+;        :effect  (tem-agua ?c ?proximonivel)
+;            
+;    )
 
     (:action COLOCARCANECA
         :parameters (?can - caneca ?c - cafeteira)
@@ -88,18 +86,17 @@
 
     (:action FAZERCAFE
     
-    :parameters (?c - cafeteira ?cap - capsula ?can - caneca ?novonivel 
-    ?nivelatual - nivel)
+    :parameters (?c - cafeteira ?cap - capsula ?can - caneca )
     
-    :precondition(and (menorque ?novonivel ?nivelatual) (tem-agua ?c ?nivelatual) (tem-capsula ?c ?cap) (tem-caneca ?c) (caneca-em ?can ?c))
+    :precondition(and (>= (nivelatual ?c) 50) (tem-capsula ?c ?cap) (tem-caneca ?c) (caneca-em ?can ?c))
     
     :effect(and 
         (not (tem-capsula ?c ?cap)) 
         (capsula-usada ?cap)
         (not (capsula-bloqueada ?cap)) 
         (not (alguma-capsula ?c)) 
-        (tem-agua ?c ?novonivel)
-        (not (tem-agua ?c ?nivelatual))
+        (decrease (nivelatual ?c) 50)
+        
         (cafe-pronto ?can ?cap)
     )
 
