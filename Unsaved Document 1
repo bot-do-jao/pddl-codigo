@@ -1,0 +1,19 @@
+Regras do wumpus pra IA:
+
+- se não visitado e Safo, então direita
+
+- Evitar passar em quadros que ja passou
+
+- sempre marcar os adjacentes entre Safo, Breeze, Stench, Glitter, Wumpus ou Penhasco
+
+- para penhasco ou wumpus, a cada vez que marcar, adicione um ponto para o quadrado
+
+- quadrados marcados como wumpus ou penhasco tem mais chance de sê-lo quanto maior for usa pontuação.
+
+- se passar adjacente de um quadrado com pontuação de penhasco/wumpus E esse quadrado está Safo, então o quadrado com pontuação passar a valer 0 e vira não-visitado/Safo.
+
+- se glitter então pega
+
+- se borda cima/baixo e pontuação negativa (wumpus/penhasco) corta 1 da pontuação de certeza.
+
+- se borda esquerda/direita e pontuação negativa corta 1 da pontuação de certeza
