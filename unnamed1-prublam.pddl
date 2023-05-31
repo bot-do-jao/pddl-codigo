@@ -1,1 +1,0 @@
-(define (problem get-sister-to-school)

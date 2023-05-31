@@ -1,5 +1,0 @@
-(define (problem get-sister-to-school))
-(:domain get-sister-to-school)
-(:objects  sister car school home hour feet )
-(:INIT (clear car) (time hour) (is_occupied home) (open school))
-(:goal (is_occupied school))
