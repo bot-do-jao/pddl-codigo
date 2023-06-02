@@ -1,12 +1,11 @@
-(define (domain meucafebistroNUM)
+(define (domain meucafebistroNUM2)
 
-    (:requirements :strips :typing :negative-preconditions )
+    (:requirements :strips :typing :negative-preconditions :numeric-fluents)
 
     (:types capsula cafeteira agua nivel - objeto)
 
     (:predicates 
         (capsula-usada ?cap - capsula)
-        (segurando ?o - objeto)
         (tem-capsula ?c - cafeteira ?cap - capsula)
         (alguma-capsula ?c - cafeteira)
         (caneca-em ?cafeteira - cafeteira)
@@ -26,7 +25,8 @@
 (:action COLOCARAGUA
     :parameters (?c - cafeteira )
     :precondition (and (= (nivelatual ?c) 0))
-    :effect (increase (nivelatual ?c) (capacidade ?c))
+
+    :effect ( assign (nivelatual ?c) (capacidade ?c) )
 )
 
 

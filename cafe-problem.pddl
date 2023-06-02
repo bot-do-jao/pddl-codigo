@@ -26,7 +26,7 @@
         (tem-capsula cafeteira2 chococino)
         (alguma-capsula cafeteira1)
         (tem-capsula cafeteira1 ristreto)
-        (tem-capsula cafeteira2 )
+        (tem-capsula cafeteira2 chocino)
         (capsula-bloqueada ristreto)
         (capsula-bloqueada chococino)
         (tem-caneca cafeteira1))
