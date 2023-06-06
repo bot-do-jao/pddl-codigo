@@ -5,7 +5,6 @@
         
         cafeteira1 - cafeteira
         cafeteira2 - cafeteira
-        caps1 - capsula
         chococino - capsula
         caramel - capsula
         ristreto - capsula
@@ -26,7 +25,6 @@
         (tem-capsula cafeteira2 chococino)
         (alguma-capsula cafeteira1)
         (tem-capsula cafeteira1 ristreto)
-        (tem-capsula cafeteira2 chococino)
         (capsula-bloqueada ristreto)
         (capsula-bloqueada chococino)
         (caneca-em cafeteira1)
@@ -39,5 +37,5 @@
             (cafe-pronto starobuckso)
         )
     )
-
+    (:metric minimize (nivelatual cafeteira1))
 )
