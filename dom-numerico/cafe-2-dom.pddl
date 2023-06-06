@@ -2,9 +2,7 @@
 
     (:requirements :strips :typing :negative-preconditions )
 
-    (:types
-        capsula cafeteira
-    )
+    (:types  capsula cafeteira )
 
     (:predicates
         (capsula-usada ?cap - capsula)

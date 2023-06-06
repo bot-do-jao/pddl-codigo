@@ -1,8 +1,7 @@
-(define 
-    (problem teste001)
+(define (problem teste001)
     (:domain meucafebistroNUM2)
     (:objects
-        
+
         cafeteira1 - cafeteira
         cafeteira2 - cafeteira
         chococino - capsula
@@ -11,8 +10,8 @@
         starobuckso - capsula
         cafematinal - capsula
         ovomaltine - capsula
-        pingado - capsula)
-
+        pingado - capsula
+    )
 
     (:init
         (= (nivelatual cafeteira1) 300)
@@ -37,5 +36,7 @@
             (cafe-pronto starobuckso)
         )
     )
-    (:metric minimize (nivelatual cafeteira1))
+    (:metric minimize
+        (nivelatual cafeteira1)
+    )
 )
