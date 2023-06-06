@@ -1,8 +1,10 @@
 (define (domain meucafebistroNUM2)
 
-    (:requirements :strips :typing :negative-preconditions )
+    (:requirements :strips :typing :negative-preconditions)
 
-    (:types  capsula cafeteira )
+    (:types
+        capsula cafeteira
+    )
 
     (:predicates
         (capsula-usada ?cap - capsula)
@@ -20,12 +22,13 @@
         (estoque-can)
     )
 
-    ;    (:action COLOCARAGUA
-    ;        :parameters (?c - cafeteira )
-    ;        :precondition (and (= (nivelatual ?c) 0))
-    ;
-    ;        :effect ( (increase (nivelatual ?c) (capacidade ?c) ))
-    ;    )
+    (:action COLOCARAGUA
+        :parameters (?c - cafeteira)
+        :precondition (= (nivelatual ?c) 0)
+
+        :effect (
+            (increase (nivelatual ?c) (capacidade ?c) ))
+    )
 
     (:action COLOCARPOUCAAGUA
         :parameters (?c - cafeteira)
@@ -44,12 +47,11 @@
         :effect (and
             (caneca-em ?c)
             (decrease (quantidade-can) 1)
-
         )
     )
 
     (:action TIRARCANECA
-        :parameters (?c -cafeteira)
+        :parameters (?c - cafeteira)
 
         :precondition (and
             ( caneca-em ?c)

@@ -36,7 +36,5 @@
             (cafe-pronto starobuckso)
         )
     )
-    (:metric minimize
-        (nivelatual cafeteira1)
-    )
+    (:metric minimize (quantidade-can))
 )
