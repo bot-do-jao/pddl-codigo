@@ -13,21 +13,21 @@
         (caneca-em ?cafeteira - cafeteira)
         (cafe-pronto ?cap - capsula)
         (capsula-bloqueada ?cap - capsula)
+        (caneca-bloqueada ?c - cafeteira)
     )
 
     (:functions
         (nivelatual ?c - cafeteira)
         (capacidade ?c - cafeteira)
         (quantidade-can)
-        (estoque-can)
+
     )
 
     (:action COLOCARAGUA
         :parameters (?c - cafeteira)
-        :precondition (= (nivelatual ?c) 0)
+        :precondition (< (nivelatual ?c) (capacidade ?c))
 
-        :effect (
-            (increase (nivelatual ?c) (capacidade ?c) ))
+        :effect ( assign (nivelatual ?c) (capacidade ?c) )
     )
 
     (:action COLOCARPOUCAAGUA
@@ -42,24 +42,24 @@
         :precondition (and
             (> (quantidade-can) 0)
             (not (caneca-em ?c))
+            (not (caneca-bloqueada ?c))
         )
 
         :effect (and
             (caneca-em ?c)
             (decrease (quantidade-can) 1)
+            (caneca-bloqueada ?c)
         )
     )
 
-    (:action TIRARCANECA
+    (:action LIMPACANECA
         :parameters (?c - cafeteira)
+        :precondition (and (>= (quantidade-can) 0)
+            (caneca-bloqueada ?c)
+        )
 
-        :precondition (and
-            ( caneca-em ?c)
-            (< (quantidade-can) (estoque-can)))
-
-        :effect (and
-            (not (caneca-em ?c))
-            (increase (quantidade-can) 1)
+        :effect (and (increase (quantidade-can) 1)
+            (not (caneca-bloqueada ?c))
         )
     )
 
@@ -98,7 +98,8 @@
             (>= (nivelatual ?c) 50)
             (tem-capsula ?c ?cap)
             (caneca-em ?c)
-            (> (quantidade-can) 0))
+            (> (quantidade-can) 0)
+        )
 
         :effect (and
             (not (tem-capsula ?c ?cap))
@@ -107,6 +108,7 @@
             (not (alguma-capsula ?c))
             (decrease (nivelatual ?c) 50)
             (cafe-pronto ?cap)
+            (not (caneca-em ?c))
         )
 
     )
