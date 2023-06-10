@@ -5,8 +5,8 @@
         quarto-C1 quarto-C2 quarto-C3 quarto-C4 quarto-C5 - quartoduplo
         quarto-T1 quarto-T2 - quartotriplo
         quarto-Q1 - quartoquadruplo
-        joao maria jose paulo carla - hospede
-        Jm muhmene gustavo octavio - hospede 
+        joao maria jose paulo carla 
+        Jm muhmene gustavo octavio 
         larissa joana - hospede
     )
 
@@ -73,7 +73,7 @@
     )
 
     ;un-comment the following line if metric is needed
-    ;(:metric maximize
-    ;    (orcamento)
-    ;)
+    (:metric maximize
+        (orcamento)
+    )
 )

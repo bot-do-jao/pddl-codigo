@@ -71,7 +71,7 @@
             (quarto-pagoQ ?q))
     )
 
-    (:action POENOQUARTOS
+    (:action POENOQUARTOSIMPLES
         :parameters ( ?h - hospede ?q - quartosimples)
         :precondition (and (= (ocupacaoS ?q) 0)
             (not (e-casal ?h))
@@ -99,7 +99,7 @@
         )
     )
 
-    (:action POENOQUARTOD
+    (:action POENOQUARTODUPLO
         :parameters ( ?h1 ?h2 - hospede ?q - quartoduplo)
         :precondition (and
             (= (ocupacaoD ?q) 0)
@@ -117,11 +117,14 @@
         )
     )
 
-    (:action POENOQUARTOT
+    (:action POENOQUARTOTRIPLO
         :parameters ( ?h1 ?h2 ?h3 - hospede ?q - quartotriplo)
         :precondition (and (= (ocupacaoT ?q) 0)
             (not (se-odeiam ?h1 ?h2))
+            (not (se-odeiam ?h2 ?h1))
             (not (se-odeiam ?h1 ?h3))
+            (not (se-odeiam ?h3 ?h1))
+            (not (se-odeiam ?h3 ?h2))
             (not (se-odeiam ?h2 ?h3))
             (not (e-casal ?h1))
             (not (e-casal ?h2))
@@ -138,15 +141,21 @@
         )
     )
 
-    (:action POENOQUARTOQ
+    (:action POENOQUARTOQUADRUPLO
         :parameters ( ?h1 ?h2 ?h3 ?h4 - hospede ?q - quartoquadruplo)
         :precondition (and (= (ocupacaoQ ?q) 0)
             (not (se-odeiam ?h1 ?h2))
+            (not (se-odeiam ?h2 ?h1))
             (not (se-odeiam ?h1 ?h3))
+            (not (se-odeiam ?h3 ?h1))
             (not (se-odeiam ?h1 ?h4))
+            (not (se-odeiam ?h4 ?h1))
             (not (se-odeiam ?h2 ?h3))
+            (not (se-odeiam ?h3 ?h2))
             (not (se-odeiam ?h2 ?h4))
+            (not (se-odeiam ?h4 ?h2))
             (not (se-odeiam ?h3 ?h4))
+            (not (se-odeiam ?h4 ?h3))
             (not (e-casal ?h1))
             (not (e-casal ?h2))
             (not (e-casal ?h3))
@@ -167,7 +176,7 @@
 
     ; coloque uma pessoa no quarto triplo
 
-    (:action POE1NOQUARTOT
+    (:action POE1NOQUARTOTRIPLO
         :parameters ( ?h1 - hospede ?q - quartotriplo)
         :precondition (and (< (ocupacaoT ?q) 3)
             (not (e-casal ?h1))
@@ -181,7 +190,7 @@
 
     ; uma pessoa no quarto quadruplo
 
-    (:action POE1NOQUARTOQ
+    (:action POE1NOQUARTOQUADRUPLO
         :parameters ( ?h1 - hospede ?q - quartoquadruplo)
         :precondition (and (< (ocupacaoQ ?q) 0)
             (not (e-casal ?h1))
@@ -195,7 +204,3 @@
 
 )
 
-;Unrecognized term <(ocupacao(quarto-s2), cap-quarto-4(quarto-s2)).
-; por algum motivo ele esta alocando as capacidades erradas
-; fazer cada quarto ser um tipo proprio de variavel ?qs - quartoSimples
-; ?qd - quartoDuplo e ?qq - quartoQuadruplo

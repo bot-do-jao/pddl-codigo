@@ -18,9 +18,6 @@
         (= (preco-quartoT quarto-T2) 300)
         (= (preco-quartoQ quarto-Q1) 400)
         (= (orcamento) 3000)
-        (= (cap-quarto-T quarto-T1) 3)
-        (= (cap-quarto-T quarto-T2) 3)
-        (= (cap-quarto-Q quarto-Q1) 4)
         (= (ocupacaoS quarto-s1) 0)
         (= (ocupacaoS quarto-s2) 0)
         (= (ocupacaoS quarto-s3) 0)
@@ -34,6 +31,8 @@
         (e-casal maria)
         (se-odeiam carla maria)
         (se-odeiam jose maria)
+        (se-odeiam carla paulo)
+        (se-odeiam carla jose)
 
     )
 
