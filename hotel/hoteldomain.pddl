@@ -18,15 +18,14 @@
     (:functions
         (preco-quarto ?q - quarto)
         (orcamento)
-        (cap-quarto-1 ?q - quarto)
-        (cap-quarto-2 ?q - quarto)
-        (cap-quarto-4 ?q - quarto)
         (ocupacao ?q - quarto)
     )
 
     (:action PAGAOQUARTO
         :parameters ( ?q - quarto)
-        :precondition (not (quarto-pago ?q))
+        :precondition (and (not (quarto-pago ?q))
+                            (>= (orcamento) (preco-quarto ?q))
+        )
         :effect (and (decrease (orcamento) (preco-quarto ?q) )
             (quarto-pago ?q)
         )
@@ -35,7 +34,7 @@
 
     (:action POENOQUARTO1
         :parameters ( ?h - hospede ?q - quarto)
-        :precondition (and (< (ocupacao ?q) (cap-quarto-1 ?q))
+        :precondition (and (= (ocupacao ?q) 0)
             (not (e-casal ?h))
             (quarto-pago ?q)
             (not (alocado ?h))
@@ -64,7 +63,7 @@
     (:action POENOQUARTO2
         :parameters ( ?h1 ?h2 - hospede ?q - quarto)
         :precondition (and
-            (< (ocupacao ?q) (cap-quarto-2 ?q))
+            (= (ocupacao ?q) 0)
             (not (se-odeiam ?h1 ?h2))
             (not (e-casal ?h1))
             (not (e-casal ?h2))
@@ -79,9 +78,29 @@
         )
     )
 
+    (:action POE1NOQUARTO3
+        :parameters (?h1 ?h2 ?h3 - hospede ?q - quarto)
+        :precondition (and (= (ocupacao ?q) 0)
+            (not (se-odeiam ?h1 ?h2))
+            (not (se-odeiam ?h1 ?h3))
+            (not (se-odeiam ?h2 ?h3))
+            (quarto-pago ?q)
+            (not (alocado ?h1))
+            (not (alocado ?h2))
+            (not (alocado ?h3))
+        )
+        :effect (and (increase (ocupacao ?q) 3)
+            (alocado ?h1)
+            (alocado ?h2)
+            (alocado ?h3)
+        )
+        
+    )
+    
+
     (:action POENOQUARTO4
         :parameters ( ?h1 ?h2 ?h3 ?h4 - hospede ?q - quarto)
-        :precondition (and (< (ocupacao ?q) (cap-quarto-4 ?q))
+        :precondition (and (= (ocupacao ?q) 0)
             (not (se-odeiam ?h1 ?h2))
             (not (se-odeiam ?h1 ?h3))
             (not (se-odeiam ?h1 ?h4))
@@ -102,21 +121,30 @@
         )
     )
 
-    ;(:action POE1
-    ;    :parameters (?h - hospede ?q - quarto)
-    ;    :precondition (and ( or(
-    ;             (< (ocupacao ?q) (cap-quarto-1 ?q))
-    ;                (< (ocupacao ?q) (cap-quarto-2 ?q))
-    ;                (< (ocupacao ?q) (cap-quarto-4 ?q))
-    ;            ) 
-    ;            (not (e-casal ?h))
-    ;            (quarto-pago ?q)
-    ;            (not (alocado ?h))
-    ;        ))
-    ;    :effect (and (increase (ocupacao ?q) 1)
-    ;        (alocado ?h)
-    ;    )
-    ;)
+    (:action POE1QUARTOT
+        :parameters (?h - hospede ?q - quarto)
+        :precondition (and (< (ocupacao ?q) 3)
+            (not (e-casal ?h))
+            (quarto-pago ?q)
+            (not (alocado ?h))
+        )
+        :effect (and (increase (ocupacao ?q) 1)
+            (alocado ?h)
+        )
+    )
+
+    (:action POE1QUARTOQ
+        :parameters (?h - hospede ?q - quarto)
+        :precondition (and (< (ocupacao ?q) 4)
+            (not (e-casal ?h))
+            (quarto-pago ?q)
+            (not (alocado ?h))
+        )
+        :effect (and (increase (ocupacao ?q) 1)
+            (alocado ?h)
+        )
+    )
+    
 
 )
 
