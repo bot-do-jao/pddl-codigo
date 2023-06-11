@@ -1,6 +1,6 @@
 (define (domain meucafebistroNUM2)
 
-    (:requirements :strips :typing :negative-preconditions)
+    (:requirements :strips :typing :negative-preconditions :numeric-fluents)
 
     (:types
         capsula cafeteira
