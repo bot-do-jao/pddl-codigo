@@ -2,6 +2,7 @@
 (:objects 
     qs1 qs2 qs3 qs4 - quartosimples
     qd1 qd2 qd3 qd4 - quartoduplo
+    qt1 qt2 qt3 qt4 - quartotriplo
     qq1 qq2 qq3 qq4 - quartoquadruplo
     joao maria carla bruno - hospede
     man1 wm1 man2 wm2 wm3 wm4 - hospede
@@ -18,10 +19,14 @@
     (= (preco-quartoD qd2) 225)
     (= (preco-quartoD qd3) 225)
     (= (preco-quartoD qd4) 225)
-    (= (preco-quartoQ qq1) 350)
-    (= (preco-quartoQ qq2) 350)
-    (= (preco-quartoQ qq3) 350)
-    (= (preco-quartoQ qq4) 350)
+    (= (preco-quartoT qt1) 300)
+    (= (preco-quartoT qt2) 300)
+    (= (preco-quartoT qt3) 300)
+    (= (preco-quartoT qt4) 300)
+    (= (preco-quartoQ qq1) 370)
+    (= (preco-quartoQ qq2) 370)
+    (= (preco-quartoQ qq3) 370)
+    (= (preco-quartoQ qq4) 370)
     (= (ocupacaoS qs1) 0)
     (= (ocupacaoS qs2) 0)
     (= (ocupacaoS qs3) 0)
@@ -30,6 +35,10 @@
     (= (ocupacaoD qd2) 0)
     (= (ocupacaoD qd3) 0)
     (= (ocupacaoD qd4) 0)
+    (= (ocupacaoT qt1) 0)
+    (= (ocupacaoT qt2) 0)
+    (= (ocupacaoT qt3) 0)
+    (= (ocupacaoT qt4) 0)
     (= (ocupacaoQ qq1) 0)
     (= (ocupacaoQ qq2) 0)
     (= (ocupacaoQ qq3) 0)
