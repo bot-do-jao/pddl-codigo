@@ -99,6 +99,9 @@
         )
     )
 
+    ;fazer açao que faz os outros se odiarem
+    ;fazer os quartos serem em numeros nao em tipos
+
     (:action POENOQUARTODUPLO
         :parameters ( ?h1 ?h2 - hospede ?q - quartoduplo)
         :precondition (and
