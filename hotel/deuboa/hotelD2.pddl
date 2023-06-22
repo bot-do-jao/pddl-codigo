@@ -103,7 +103,7 @@
     ;fazer os quartos serem em numeros nao em tipos
 
     (:action POENOQUARTODUPLO
-        :parameters ( ?h1 ?h2 - hospede ?q - quartoduplo)
+        :parameters ( ?h1 - hospede ?h2 - hospede ?q - quartoduplo)
         :precondition (and
             (= (ocupacaoD ?q) 0)
             (not (se-odeiam ?h1 ?h2))
@@ -122,7 +122,7 @@
     )
 
     (:action POENOQUARTOTRIPLO
-        :parameters ( ?h1 ?h2 ?h3 - hospede ?q - quartotriplo)
+        :parameters ( ?h1 - hospede ?h2 - hospede ?h3 - hospede ?q - quartotriplo)
         :precondition (and (= (ocupacaoT ?q) 0)
             (not (se-odeiam ?h1 ?h2))
             (not (se-odeiam ?h2 ?h1))
@@ -146,7 +146,7 @@
     )
 
     (:action POENOQUARTOQUADRUPLO
-        :parameters ( ?h1 ?h2 ?h3 ?h4 - hospede ?q - quartoquadruplo)
+        :parameters ( ?h1 - hospede ?h2 - hospede ?h3 - hospede ?h4 - hospede ?q - quartoquadruplo)
         :precondition (and (= (ocupacaoQ ?q) 0)
             (not (se-odeiam ?h1 ?h2))
             (not (se-odeiam ?h2 ?h1))

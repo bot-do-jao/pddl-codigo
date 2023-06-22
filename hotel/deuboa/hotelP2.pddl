@@ -52,3 +52,12 @@
         (orcamento)
     )
 )
+
+;(pagaoquartoduplo quarto-c2)
+;(pagaoquartotriplo quarto-t2)
+;(poenoquartotriplo jose jose paulo quarto-t2)
+;(poecasal joao maria quarto-c2)
+;(pagaoquartotriplo quarto-t1)
+;(poenoquartotriplo carla carla carla quarto-t1)
+
+;time: 11.407153287 seconds

@@ -77,3 +77,16 @@
         (orcamento)
     )
 )
+
+;(pagaoquartoduplo quarto-c3)
+;(pagaoquartotriplo quarto-t1)
+;(poenoquartotriplo joana jose paulo quarto-t1)
+;(pagaoquartotriplo quarto-t2)
+;(poenoquartotriplo muhmene octavio gustavo quarto-t2)
+;(pagaoquartoduplo quarto-c5)
+;(poecasal jm larissa quarto-c3)
+;(poecasal joao maria quarto-c5)
+;(pagaoquartoduplo quarto-c2)
+;(poenoquartoduplo carla carla quarto-c2)
+
+;time: 15.404228275 seconds

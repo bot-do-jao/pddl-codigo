@@ -140,3 +140,18 @@
 ;un-comment the following line if metric is needed
 (:metric maximize (orcamento))
 )
+
+;(pagaoquartoduplo qd2)
+;(pagaoquartotriplo qt3)
+;(poenoquartotriplo wm2 wm1 wm4 qt3)
+;(pagaoquartotriplo qt2)
+;(poenoquartotriplo man2 amigo4 amigo1 qt2)
+;(pagaoquartotriplo qt1)
+;(poenoquartotriplo man1 amigo2 amigo3 qt1)
+;(pagaoquartoduplo qd1)
+;(poecasal carla bruno qd1)
+;(poecasal joao maria qd2)
+;(pagaoquartotriplo qt4)
+;(poenoquartotriplo wm3 wm3 wm3 qt4)
+
+;time: 27.607242426 seconds

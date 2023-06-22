@@ -131,3 +131,17 @@
 ;un-comment the following line if metric is needed
 (:metric maximize (orcamento))
 )
+
+;(pagaoquartoduplo qd2)
+;(pagaoquartoduplo qd1)
+;(poenoquartoduplo wm2 wm1 qd1)
+;(pagaoquartoduplo qd4)
+;(poenoquartoduplo man2 amigo4 qd4)
+;(pagaoquartoduplo qd3)
+;(poenoquartoduplo amigo1 man1 qd3)
+;(pagaoquartoquadruplo qq1)
+;(poenoquartoquadruplo wm4 wm4 wm4 wm3 qq1)
+;(pagaoquartosimples qs1)
+
+;time: 313.388737667 seconds
+;Deu time-out
