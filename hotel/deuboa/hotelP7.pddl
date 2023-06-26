@@ -34,4 +34,11 @@
     )
 )
 
+;solution found:
+;(pagaoquartoquadruplo quarto-q1)
+;(pagaoquartoquadruplo quarto-q2)
+;(poenoquartoquadruplo h7 h8 h1 h3 quarto-q1)
+;(poenoquartoquadruplo h6 h2 h4 h5 quarto-q2)
+
+;time: 26.957895987 seconds
 

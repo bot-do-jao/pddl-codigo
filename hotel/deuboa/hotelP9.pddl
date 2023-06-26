@@ -3,7 +3,7 @@
     (:objects
         qs1 qs2 qs3 qs4 qs5 qs6 - quartosimples
         quarto-Q1 quarto-Q2 quarto-Q3 - quartoquadruplo
-        h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19- hospede
+        h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 - hospede
     )
 
     (:init
@@ -48,11 +48,6 @@
             (alocado h12)
             (alocado h13)
             (alocado h14)
-            (alocado h15)
-            (alocado h16)
-            (alocado h17)
-            (alocado h18)
-            (alocado h19)
         )
     )
 
@@ -62,4 +57,8 @@
     )
 )
 
+;solution found:
+;(pagaoquartoquadruplo quarto-q3)
+
+;time: 419.338143815 seconds
 

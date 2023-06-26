@@ -51,4 +51,11 @@
     )
 )
 
+;(pagaoquartosimples qs5)
+;(pagaoquartoquadruplo quarto-q1)
+;(poenoquartoquadruplo h7 h8 h1 h6 quarto-q1)
+;(pagaoquartoquadruplo quarto-q2)
+;(poenoquartoquadruplo h3 h2 h4 h5 quarto-q2)
+
+;time: 40.304057192 seconds
 
