@@ -3,28 +3,28 @@
         )
 
         (:types
-                container dispenser level beverage hand - anything
-                shot shaker - container
-                ingredient cocktail - beverage
+                container dispenser level beverage hand - anything      ; superclasse
+                shot shaker - container                                 ; armazenamento copo e coqueteleira
+                ingredient cocktail - beverage                          ; materiais e resultado
         )
 
         (:predicates
-                (clean ?p0 - container)
-                (cocktailPart1 ?p0 - cocktail ?p1 - ingredient)
-                (cocktailPart2 ?p0 - cocktail ?p1 - ingredient)
-                (contains ?p0 - container ?p1 - beverage)
-                (dispenses ?p0 - dispenser ?p1 - ingredient)
-                (empty ?p0 - container)
-                (handEmpty ?p0 - hand)
-                (holding ?p0 - hand ?p1 - container)
-                (ingredient ?p0 - ingredient)
-                (next ?p0 - level ?p1 - level)
-                (ontable ?p0 - container)
-                (shaked ?p0 - shaker)
-                (shakerEmptyLevel ?p0 - shaker ?p1 - level)
-                (shakerLevel ?p0 - shaker ?p1 - level)
-                (unshaked ?p0 - shaker)
-                (used ?p0 - container ?p1 - beverage)
+                (clean ?p0 - container)                                 ; indica limpeza de um container
+                (cocktailPart1 ?p0 - cocktail ?p1 - ingredient)         ; ingrediente 1 q faz parte do coquetel p0
+                (cocktailPart2 ?p0 - cocktail ?p1 - ingredient)         ; ingrediente 2 q faz parte do coquetel p0
+                (contains ?p0 - container ?p1 - beverage)               ; container (copo/shaker) p0 contem bebida (ingredient/coquetel) p1
+                (dispenses ?p0 - dispenser ?p1 - ingredient)            ; dispenser p0 comtem ingrediente p1 (algo como saleiro contem sal)
+                (empty ?p0 - container)                                 ; indica se o container está vazio
+                (handEmpty ?p0 - hand)                                  ; indica se a mão está livre
+                (holding ?p0 - hand ?p1 - container)                    ; indica o que a mão esta segurando (container)
+                (ingredient ?p0 - ingredient)                           ; 
+                (next ?p0 - level ?p1 - level)                          ;
+                (ontable ?p0 - container)                               ; indica se o container esta na mesa
+                (shaked ?p0 - shaker)                                   ; indica se o shaker ja foi batido
+                (shakerEmptyLevel ?p0 - shaker ?p1 - level)             ; indica o nivel de vazio do shaker
+                (shakerLevel ?p0 - shaker ?p1 - level)                  ; indica o nivel que o shaker está
+                (unshaked ?p0 - shaker)                                 ; indica se o shaker ainda não foi batido (oposto de shaked) !!! não vejo motivo
+                (used ?p0 - container ?p1 - beverage)                   ; indica relações entre bebidas e containers
         )
 
         (:task AchieveContainsShakerIngredient
