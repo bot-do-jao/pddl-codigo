@@ -18,7 +18,7 @@
                 (handEmpty ?p0 - hand)                                  ; indica se a mão está livre
                 (holding ?p0 - hand ?p1 - container)                    ; indica o que a mão esta segurando (container)
                 (ingredient ?p0 - ingredient)                           ; 
-                (next ?p0 - level ?p1 - level)                          ;
+                (next ?p0 - level ?p1 - level)                          ; indica a sequencia de niveis
                 (ontable ?p0 - container)                               ; indica se o container esta na mesa
                 (shaked ?p0 - shaker)                                   ; indica se o shaker ja foi batido
                 (shakerEmptyLevel ?p0 - shaker ?p1 - level)             ; indica o nivel de vazio do shaker
@@ -27,465 +27,465 @@
                 (used ?p0 - container ?p1 - beverage)                   ; indica relações entre bebidas e containers
         )
 
-        (:task AchieveContainsShakerIngredient
+        (:task AchieveContainsShakerIngredient                          ; tarefa ter ingrediente no shaker
                 :parameters (?x_0 - shaker ?x_1 - ingredient)
         )
-        (:task AchieveCleanShaker
+        (:task AchieveCleanShaker                                       ; tarefa ter o shaker limpo
                 :parameters (?x_0 - shaker)
         )
-        (:task AchieveHandEmpty
+        (:task AchieveHandEmpty                                         ; tarefa estar com a mão vazia
                 :parameters (?x_0 - hand)
         )
-        (:task AchieveContainsShotIngredient
+        (:task AchieveContainsShotIngredient                            ; tarefa ter o ingrediente no shot (copo)
                 :parameters (?x_0 - shot ?x_1 - ingredient)
         )
-        (:task AchieveContainsShakerCocktail
+        (:task AchieveContainsShakerCocktail                            ; tarefa ter o coquetel no shaker
                 :parameters (?x_0 - shaker ?x_1 - cocktail)
         )
-        (:task DoPourShakerToShot
+        (:task DoPourShakerToShot                                       ; tarefa despejar conteudo do shaker no shot (copo)
                 :parameters (?x_0 - shaker ?x_1 - shot ?x_2 - cocktail)
         )
-        (:task AchieveOnTable
+        (:task AchieveOnTable                                           ; tarefa deixar o container na mesa
                 :parameters (?x_0 - container)
         )
-        (:task AchieveHolding
+        (:task AchieveHolding                                           ; tarefa segurar o container na mão
                 :parameters (?x_0 - hand ?x_1 - container)
         )
-        (:task AchieveCleanShot
+        (:task AchieveCleanShot                                         ; tarefa ter o copo limpo
                 :parameters (?x_0 - shot)
         )
-        (:task AchieveContainsShotCocktail
+        (:task AchieveContainsShotCocktail                              ; tarefa ter o coquetel no shot
                 :parameters (?x_0 - shot ?x_1 - cocktail)
         )
 
-        (:method MakeAndPourCocktail
-                :parameters (?x_0 - shot ?x_1 - cocktail ?x_2 - shaker ?x_3 - hand)
+        (:method MakeAndPourCocktail                                                    ; metodo fazer e despejar o coquetel
+                :parameters (?x_0 - shot ?x_1 - cocktail ?x_2 - shaker ?x_3 - hand)     ; utiliza 1 shot, 1 coquetel, 1 shaker e 1 mão
                 :task
                 (AchieveContainsShotCocktail ?x_0 ?x_1)
                 :precondition (and
-                        (not (contains ?x_0 ?x_1))
+                        (not (contains ?x_0 ?x_1))                                      ; precondição é não ter o coquetel desejado no copo esperado
                 )
-                :ordered-subtasks
+                :ordered-subtasks                                                       ; sequencia de tarefas que devem ser sequenciais para obter o coquetel certo
                 (and
-                        (AchieveContainsShakerCocktail ?x_2 ?x_1)
-                        (AchieveCleanShot ?x_0)
-                        (AchieveHolding ?x_3 ?x_2)
-                        (DoPourShakerToShot ?x_2 ?x_0 ?x_1)
+                        (AchieveContainsShakerCocktail ?x_2 ?x_1)                       ; conseguir o coquetel no shaker
+                        (AchieveCleanShot ?x_0)                                         ; ter o copo limpo
+                        (AchieveHolding ?x_3 ?x_2)                                      ; segurar o shaker na mão  
+                        (DoPourShakerToShot ?x_2 ?x_0 ?x_1)                             ; despejar o coquetel no copo
                 )
         )
 
-        (:method MakeAndPourCocktailNull
-                :parameters (?x_0 - shot ?x_1 - cocktail)
+        (:method MakeAndPourCocktailNull                                                ; metodo caso o coquetel já esteja no copo desejado
+                :parameters (?x_0 - shot ?x_1 - cocktail)                               ; utiliza 1 shot e um coquetel
                 :task
                 (AchieveContainsShotCocktail ?x_0 ?x_1)
                 :precondition (and
-                        (contains ?x_0 ?x_1)
+                        (contains ?x_0 ?x_1)                                            ; precondição é o shot ja estar no copo desejado
                 )
                 :ordered-subtasks
-                (and
+                (and                                                                    ; não tem tasks pq já ta pronto.
                 )
         )
 
-        (:method MakeCocktail
-                :parameters (?x_0 - shaker ?x_1 - cocktail ?x_2 - ingredient ?x_3 - hand ?x_4 - hand ?x_5 - ingredient)
+        (:method MakeCocktail                                                                                           ; metodo de fazer o coquetel
+                :parameters (?x_0 - shaker ?x_1 - cocktail ?x_2 - ingredient ?x_3 - hand ?x_4 - hand ?x_5 - ingredient) ; utiliza 1 shaker, 1 coquetek, 2 ingredientes e 2 mãos
                 :task
                 (AchieveContainsShakerCocktail ?x_0 ?x_1)
                 :precondition (and
-                        (cocktailPart1 ?x_1 ?x_5)
+                        (cocktailPart1 ?x_1 ?x_5)                                                                       ; verifica se os ingredientes passados são os necessarios para o coquetel desejado
                         (cocktailPart2 ?x_1 ?x_2)
-                        (not (= ?x_4 ?x_3))
+                        (not (= ?x_4 ?x_3))                                                                             ; verifica se as duas mãos passadas são diferentes
                 )
                 :ordered-subtasks
                 (and
-                        (AchieveCleanShaker ?x_0)
-                        (AchieveContainsShakerIngredient ?x_0 ?x_5)
-                        (AchieveContainsShakerIngredient ?x_0 ?x_2)
-                        (AchieveHolding ?x_4 ?x_0)
-                        (AchieveHandEmpty ?x_3)
-                        (shake ?x_1 ?x_5 ?x_2 ?x_0 ?x_4 ?x_3)
+                        (AchieveCleanShaker ?x_0)                               ; arranja o shaker limpo
+                        (AchieveContainsShakerIngredient ?x_0 ?x_5)             ; arranja o ingrediente no shaker
+                        (AchieveContainsShakerIngredient ?x_0 ?x_2)             ; arranja o ingrediente no shaker
+                        (AchieveHolding ?x_4 ?x_0)                              ; segura o shaker
+                        (AchieveHandEmpty ?x_3)                                 ; esvazia a segunda mão
+                        (shake ?x_1 ?x_5 ?x_2 ?x_0 ?x_4 ?x_3)                   ; mistura o coquetel
                 )
         )
 
-        (:method MakeCocktailNull
-                :parameters (?x_0 - shaker ?x_1 - cocktail)
+        (:method MakeCocktailNull                                               ; não fazer o coquetel pq já ta pronto no shaker
+                :parameters (?x_0 - shaker ?x_1 - cocktail)                     ; shaker e coquetel
                 :task
-                (AchieveContainsShakerCocktail ?x_0 ?x_1)
+                (AchieveContainsShakerCocktail ?x_0 ?x_1)                       
                 :precondition (and
-                        (contains ?x_0 ?x_1)
+                        (contains ?x_0 ?x_1)                                    ; coquetel já ta no shaker
                 )
                 :ordered-subtasks
-                (and
+                (and                                                            ; sem tasks.
                 )
         )
 
-        (:method AddIngredientToEmptyShaker
-                :parameters (?x_0 - shaker ?x_1 - ingredient ?x_2 - level ?x_3 - level ?x_4 - shot ?x_5 - hand)
+        (:method AddIngredientToEmptyShaker                                     ; adicionar ingrediente em um shaker vazio
+                :parameters (?x_0 - shaker ?x_1 - ingredient ?x_2 - level ?x_3 - level ?x_4 - shot ?x_5 - hand)         ; 1 shaker, 1 ingrediente, nivel atual, prox nivel, 1 copo e 1 mão
+                :task
+                (AchieveContainsShakerIngredient ?x_0 ?x_1)
+                :precondition (and                                              ; condições
+                        (empty ?x_0)                                            ; shaker vazio
+                        (clean ?x_0)                                            ; shaker limpo
+                        (shakerLevel ?x_0 ?x_2)                                 ; o shaker está vazio
+                        (next ?x_2 ?x_3)                                        ; os niveis passados são sequenciais
+                )
+                :ordered-subtasks
+                (and
+                        (AchieveContainsShotIngredient ?x_4 ?x_1)                       ; ingrediente no shot
+                        (AchieveHolding ?x_5 ?x_4)                                      ; segurando o shot
+                        (pour-shot-to-clean-shaker ?x_4 ?x_1 ?x_0 ?x_5 ?x_2 ?x_3)       ; colocar o ingrediente do shot no shaker
+                )
+        )
+
+        (:method AddIngredientToUsedShaker                                              ; adicionar ingrediente no shaker já ocupado
+                :parameters (?x_0 - shaker ?x_1 - ingredient ?x_2 - level ?x_3 - level ?x_4 - shot ?x_5 - hand) ; 1 shaker, 1 ingrediente, nivel atual, prox nivel, 1 shot, 1 mão
                 :task
                 (AchieveContainsShakerIngredient ?x_0 ?x_1)
                 :precondition (and
-                        (empty ?x_0)
-                        (clean ?x_0)
-                        (shakerLevel ?x_0 ?x_2)
-                        (next ?x_2 ?x_3)
+                        (not (empty ?x_0))                                              ; shaker não estar vazio
+                        (shakerLevel ?x_0 ?x_2)                                         ; shaker está no nivel passado
+                        (next ?x_2 ?x_3)                                                ; os niveis passados são sequenciais
                 )
                 :ordered-subtasks
                 (and
-                        (AchieveContainsShotIngredient ?x_4 ?x_1)
-                        (AchieveHolding ?x_5 ?x_4)
-                        (pour-shot-to-clean-shaker ?x_4 ?x_1 ?x_0 ?x_5 ?x_2 ?x_3)
+                        (AchieveContainsShotIngredient ?x_4 ?x_1)                       ; ter o ingrediente no shot
+                        (AchieveHolding ?x_5 ?x_4)                                      ; segurar o shot
+                        (pour-shot-to-used-shaker ?x_4 ?x_1 ?x_0 ?x_5 ?x_2 ?x_3)        ; adicionar o shot no shaker
                 )
         )
 
-        (:method AddIngredientToUsedShaker
-                :parameters (?x_0 - shaker ?x_1 - ingredient ?x_2 - level ?x_3 - level ?x_4 - shot ?x_5 - hand)
+        (:method AddIngredientToShakerNull                                              ; ingredientes já no shaker
+                :parameters (?x_0 - shaker ?x_1 - ingredient)                           ; shaker e ingrediente
                 :task
                 (AchieveContainsShakerIngredient ?x_0 ?x_1)
                 :precondition (and
-                        (not (empty ?x_0))
-                        (shakerLevel ?x_0 ?x_2)
-                        (next ?x_2 ?x_3)
-                )
-                :ordered-subtasks
-                (and
-                        (AchieveContainsShotIngredient ?x_4 ?x_1)
-                        (AchieveHolding ?x_5 ?x_4)
-                        (pour-shot-to-used-shaker ?x_4 ?x_1 ?x_0 ?x_5 ?x_2 ?x_3)
-                )
-        )
-
-        (:method AddIngredientToShakerNull
-                :parameters (?x_0 - shaker ?x_1 - ingredient)
-                :task
-                (AchieveContainsShakerIngredient ?x_0 ?x_1)
-                :precondition (and
-                        (contains ?x_0 ?x_1)
+                        (contains ?x_0 ?x_1)                                            ; shaker já ta no ingrediente
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method AddIngredientToShot
-                :parameters (?x_0 - shot ?x_1 - ingredient ?x_2 - dispenser ?x_3 - hand ?x_4 - hand)
+        (:method AddIngredientToShot                                                    ; adicionar ingrediente no shot
+                :parameters (?x_0 - shot ?x_1 - ingredient ?x_2 - dispenser ?x_3 - hand ?x_4 - hand)    ; 1 shot, 1 ingredient, 1 dispenser, e mãos
                 :task
                 (AchieveContainsShotIngredient ?x_0 ?x_1)
-                :precondition (and
-                        (not (contains ?x_0 ?x_1))
-                        (dispenses ?x_2 ?x_1)
+                :precondition (and                                                      ; shot não tem o ingrediente
+                        (not (contains ?x_0 ?x_1))                                      ; dispenser tem o ingrediente
+                        (dispenses ?x_2 ?x_1)                                           ; mãos são diferentes
                         (not (= ?x_4 ?x_3))
                 )
                 :ordered-subtasks
-                (and
-                        (AchieveCleanShot ?x_0)
-                        (AchieveHolding ?x_4 ?x_0)
-                        (AchieveHandEmpty ?x_3)
-                        (fill-shot ?x_0 ?x_1 ?x_4 ?x_3 ?x_2)
+                (and                            
+                        (AchieveCleanShot ?x_0)                                         ; shot limpo
+                        (AchieveHolding ?x_4 ?x_0)                                      ; segura o shot
+                        (AchieveHandEmpty ?x_3)                                         ; mão vazia
+                        (fill-shot ?x_0 ?x_1 ?x_4 ?x_3 ?x_2)                            ; encher o shot com o ingredientes
                 )
         )
 
-        (:method AddIngredientToShotNull
-                :parameters (?x_0 - shot ?x_1 - ingredient)
+        (:method AddIngredientToShotNull                                                ; ingrediente já ta no shot
+                :parameters (?x_0 - shot ?x_1 - ingredient)                             ; 1 shot e 1 ingrediente
                 :task
-                (AchieveContainsShotIngredient ?x_0 ?x_1)
+                (AchieveContainsShotIngredient ?x_0 ?x_1)          
                 :precondition (and
-                        (contains ?x_0 ?x_1)
+                        (contains ?x_0 ?x_1)                                            ; shot já tem ingrediente
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method CleanFullShot
-                :parameters (?x_0 - shot ?x_1 - hand ?x_2 - beverage ?x_3 - hand)
-                :task
-                (AchieveCleanShot ?x_0)
-                :precondition (and
-                        (contains ?x_0 ?x_2)
-                        (not (= ?x_3 ?x_1))
-                )
-                :ordered-subtasks
-                (and
-                        (AchieveHolding ?x_3 ?x_0)
-                        (empty-shot ?x_3 ?x_0 ?x_2)
-                        (AchieveHandEmpty ?x_1)
-                        (clean-shot ?x_0 ?x_2 ?x_3 ?x_1)
-                )
-        )
-
-        (:method CleanEmptyShot
-                :parameters (?x_0 - shot ?x_1 - hand ?x_2 - beverage ?x_3 - hand)
+        (:method CleanFullShot                                                          ; esvaziar e limpar o shot
+                :parameters (?x_0 - shot ?x_1 - hand ?x_2 - beverage ?x_3 - hand)       ; 1 shot, 1 mão, 1 bebida, 1 mão
                 :task
                 (AchieveCleanShot ?x_0)
                 :precondition (and
-                        (empty ?x_0)
-                        (used ?x_0 ?x_2)
-                        (not (= ?x_3 ?x_1))
+                        (contains ?x_0 ?x_2)                                            ; shot contem bebida
+                        (not (= ?x_3 ?x_1))                                             ; mãos são diferentes
                 )
                 :ordered-subtasks
                 (and
-                        (AchieveHolding ?x_3 ?x_0)
-                        (AchieveHandEmpty ?x_1)
-                        (clean-shot ?x_0 ?x_2 ?x_3 ?x_1)
+                        (AchieveHolding ?x_3 ?x_0)                                      ; segurar o shot
+                        (empty-shot ?x_3 ?x_0 ?x_2)                                     ; esvaziar o shot
+                        (AchieveHandEmpty ?x_1)                                         ; esvaziar a mão
+                        (clean-shot ?x_0 ?x_2 ?x_3 ?x_1)                                ; limpar o shot
                 )
         )
 
-        (:method CleanShotNull
-                :parameters (?x_0 - shot)
+        (:method CleanEmptyShot                                                         ; limpar o shot vazio
+                :parameters (?x_0 - shot ?x_1 - hand ?x_2 - beverage ?x_3 - hand)       ; 1 shot, 1 mao, 1 bebida e 1 mao
                 :task
                 (AchieveCleanShot ?x_0)
                 :precondition (and
-                        (clean ?x_0)
+                        (empty ?x_0)                                                    ; shot vazio
+                        (used ?x_0 ?x_2)                                                ; shot usado pela bebida 
+                        (not (= ?x_3 ?x_1))                                             ; maos diferentes
+                )
+                :ordered-subtasks
+                (and
+                        (AchieveHolding ?x_3 ?x_0)                                      ; segurar o shot
+                        (AchieveHandEmpty ?x_1)                                         ; outra mão vazia
+                        (clean-shot ?x_0 ?x_2 ?x_3 ?x_1)                                ; limpar o shot
+                )
+        )
+
+        (:method CleanShotNull                                                          ; shot ja limpo
+                :parameters (?x_0 - shot)                                               ; 1 shot
+                :task
+                (AchieveCleanShot ?x_0)
+                :precondition (and
+                        (clean ?x_0)                                                    ; shot limpo
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method CleanEmptyShaker
-                :parameters (?x_0 - shaker ?x_1 - hand ?x_2 - hand)
+        (:method CleanEmptyShaker                                                       ; limpar o shaker já vazio
+                :parameters (?x_0 - shaker ?x_1 - hand ?x_2 - hand)                     ; 1 shaker, 2 mãos
                 :task
                 (AchieveCleanShaker ?x_0)
                 :precondition (and
-                        (not (clean ?x_0))
-                        (empty ?x_0)
-                        (not (= ?x_2 ?x_1))
+                        (not (clean ?x_0))                                              ; shaker sujo
+                        (empty ?x_0)                                                    ; shaker vazio
+                        (not (= ?x_2 ?x_1))                                             ; maos diferentes
                 )
                 :ordered-subtasks
                 (and
-                        (AchieveHolding ?x_2 ?x_0)
-                        (AchieveHandEmpty ?x_1)
-                        (clean-shaker ?x_0 ?x_2 ?x_1)
+                        (AchieveHolding ?x_2 ?x_0)                                      ; segirar o shaker
+                        (AchieveHandEmpty ?x_1)                                         ; outra mão vazia
+                        (clean-shaker ?x_0 ?x_2 ?x_1)                                   ; limpar o shaker
                 )
         )
 
-        (:method CleanFullShaker
-                :parameters (?x_0 - shaker ?x_1 - level ?x_2 - cocktail ?x_3 - hand ?x_4 - hand ?x_5 - level)
+        (:method CleanFullShaker                                                        ; esvaziar o shaker cheio
+                :parameters (?x_0 - shaker ?x_1 - level ?x_2 - cocktail ?x_3 - hand ?x_4 - hand ?x_5 - level)   ; 1 shaker, nivel de vazio, 1 coquetel, 2 maos, nivel atual
                 :task
                 (AchieveCleanShaker ?x_0)
                 :precondition (and
-                        (contains ?x_0 ?x_2)
-                        (shaked ?x_0)
-                        (shakerEmptyLevel ?x_0 ?x_1)
-                        (shakerLevel ?x_0 ?x_5)
-                        (not (= ?x_4 ?x_3))
+                        (contains ?x_0 ?x_2)                                            ; shaker tem o coquetel
+                        (shaked ?x_0)                                                   ; shaker sujo
+                        (shakerEmptyLevel ?x_0 ?x_1)                                    ; nivel passado é o nivel 0 
+                        (shakerLevel ?x_0 ?x_5)                                         ; shaker cheio
+                        (not (= ?x_4 ?x_3))                                             ; maos diferentes
                 )
                 :ordered-subtasks
                 (and
-                        (AchieveHolding ?x_4 ?x_0)
-                        (empty-shaker ?x_4 ?x_0 ?x_2 ?x_5 ?x_1)
-                        (AchieveHandEmpty ?x_3)
-                        (clean-shaker ?x_0 ?x_4 ?x_3)
+                        (AchieveHolding ?x_4 ?x_0)                                      ; segurar shaker
+                        (empty-shaker ?x_4 ?x_0 ?x_2 ?x_5 ?x_1)                         ; esvaziar o shaker
+                        (AchieveHandEmpty ?x_3)                                         ; esvaziar a mão
+                        (clean-shaker ?x_0 ?x_4 ?x_3)                                   ; limpar o shaker
                 )
         )
 
-        (:method CleanShakerNull
-                :parameters (?x_0 - shaker)
-                :task
+        (:method CleanShakerNull                                                        ; shaker já limpo
+                :parameters (?x_0 - shaker)                                             ; 1 shaker
+                :task                                                                  
                 (AchieveCleanShaker ?x_0)
                 :precondition (and
-                        (clean ?x_0)
+                        (clean ?x_0)                                                    ; shaker limpo
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method PickUp
-                :parameters (?x_0 - hand ?x_1 - container)
+        (:method PickUp                                                                 ; segurar algo
+                :parameters (?x_0 - hand ?x_1 - container)                              ; 1 mao e 1 container
                 :task
                 (AchieveHolding ?x_0 ?x_1)
                 :precondition (and
-                        (not (holding ?x_0 ?x_1))
+                        (not (holding ?x_0 ?x_1))                                       ; mão não segurando o container
                 )
                 :ordered-subtasks
                 (and
-                        (AchieveHandEmpty ?x_0)
-                        (AchieveOnTable ?x_1)
-                        (grasp ?x_0 ?x_1)
+                        (AchieveHandEmpty ?x_0)                                         ; esvaziar a mão
+                        (AchieveOnTable ?x_1)                                           ; container na mesa
+                        (grasp ?x_0 ?x_1)                                               ; segurar o container
                 )
         )
 
-        (:method HoldingNull
-                :parameters (?x_0 - hand ?x_1 - container)
+        (:method HoldingNull                                                            ; mão ja segurando o container
+                :parameters (?x_0 - hand ?x_1 - container)                              ; 1 mao e 1 container
                 :task
                 (AchieveHolding ?x_0 ?x_1)
                 :precondition (and
-                        (holding ?x_0 ?x_1)
+                        (holding ?x_0 ?x_1)                                             ; mao segurando o container
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method EmptyHand
-                :parameters (?x_0 - hand ?x_1 - container)
+        (:method EmptyHand                                                              ; esvaziar a mão
+                :parameters (?x_0 - hand ?x_1 - container)                              ; 1 mao e 1 container
                 :task
                 (AchieveHandEmpty ?x_0)
                 :precondition (and
-                        (holding ?x_0 ?x_1)
+                        (holding ?x_0 ?x_1)                                             ; mao segurando o container
                 )
                 :ordered-subtasks
                 (and
-                        (drop ?x_0 ?x_1)
+                        (drop ?x_0 ?x_1)                                                ; largar o container
                 )
         )
 
-        (:method HandEmptyNull
-                :parameters (?x_0 - hand ?x_1 - hand)
+        (:method HandEmptyNull                                                          ; mao ja vazia
+                :parameters (?x_0 - hand ?x_1 - hand)                                   ; 2 maos (iguais)
                 :task
                 (AchieveHandEmpty ?x_0)
                 :precondition (and
-                        (handEmpty ?x_1)
+                        (handEmpty ?x_1)                                                ; mao esta vazia
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method PutDown
-                :parameters (?x_0 - container ?x_1 - hand)
+        (:method PutDown                                                                ; largar o container
+                :parameters (?x_0 - container ?x_1 - hand)                              ; 1 container e 1 mao
                 :task
                 (AchieveOnTable ?x_0)
                 :precondition (and
-                        (holding ?x_1 ?x_0)
+                        (holding ?x_1 ?x_0)                                             ; mao segurando o container
                 )
                 :ordered-subtasks
                 (and
-                        (drop ?x_1 ?x_0)
+                        (drop ?x_1 ?x_0)                                                ; largar o container
                 )
         )
 
-        (:method OnTableNull
-                :parameters (?x_0 - container)
+        (:method OnTableNull                                                            ; container ja esta na mesa
+                :parameters (?x_0 - container)                                          ; 1 container
                 :task
                 (AchieveOnTable ?x_0)
                 :precondition (and
-                        (ontable ?x_0)
+                        (ontable ?x_0)                                                  ; container esta na mesa
                 )
                 :ordered-subtasks
                 (and
                 )
         )
 
-        (:method pour_shaker_to_shot_action
-                :parameters (?x_0 - shaker ?x_1 - shot ?x_2 - cocktail ?x_3 - level ?x_4 - hand ?x_5 - level)
+        (:method pour_shaker_to_shot_action                                             ; despejar conteudo do shaker no copo
+                :parameters (?x_0 - shaker ?x_1 - shot ?x_2 - cocktail ?x_3 - level ?x_4 - hand ?x_5 - level)   ; 1 shaker, 1 shot, 1 coquetel, 1 nivel, 1 mao, e 1 nivel
                 :task
                 (DoPourShakerToShot ?x_0 ?x_1 ?x_2)
                 :precondition (and
-                        (holding ?x_4 ?x_0)
-                        (shaked ?x_0)
-                        (empty ?x_1)
-                        (clean ?x_1)
-                        (contains ?x_0 ?x_2)
-                        (shakerLevel ?x_0 ?x_3)
-                        (next ?x_5 ?x_3)
+                        (holding ?x_4 ?x_0)                                             ; segurar o shaker
+                        (shaked ?x_0)                                                   ; coquetel batido
+                        (empty ?x_1)                                                    ; copo vazio
+                        (clean ?x_1)                                                    ; copo limpo
+                        (contains ?x_0 ?x_2)                                            ; shaker contem coquetel
+                        (shakerLevel ?x_0 ?x_3)                                         ; shaker ta cheio
+                        (next ?x_5 ?x_3)                                                ; niveis sequenciais
                 )
                 :ordered-subtasks
                 (and
-                        (pour-shaker-to-shot ?x_2 ?x_1 ?x_4 ?x_0 ?x_3 ?x_5)
+                        (pour-shaker-to-shot ?x_2 ?x_1 ?x_4 ?x_0 ?x_3 ?x_5)             ; colocar no shot
                 )
         )
 
-        (:action clean-shaker
-                :parameters (?x_0 - shaker ?x_1 - hand ?x_2 - hand)
+        (:action clean-shaker                                                           ; limpar o shaker
+                :parameters (?x_0 - shaker ?x_1 - hand ?x_2 - hand)                     ; 1 shaker e 2 maos
                 :precondition (and
-                        (holding ?x_1 ?x_0)
-                        (empty ?x_0)
-                        (handEmpty ?x_2)
+                        (holding ?x_1 ?x_0)                                             ; segurando o shaker
+                        (empty ?x_0)                                                    ; shakervazio
+                        (handEmpty ?x_2)                                                ; mao vazia
                 )
                 :effect (and
-                        (clean ?x_0)
+                        (clean ?x_0)                                                    ; shaker limpo
                 )
         )
 
-        (:action clean-shot
-                :parameters (?x_0 - shot ?x_1 - beverage ?x_2 - hand ?x_3 - hand)
+        (:action clean-shot                                                             ; limpar o shot
+                :parameters (?x_0 - shot ?x_1 - beverage ?x_2 - hand ?x_3 - hand)       ; 1 shot, 1 bebida, 2 maos
                 :precondition (and
-                        (holding ?x_2 ?x_0)
-                        (handEmpty ?x_3)
-                        (empty ?x_0)
-                        (used ?x_0 ?x_1)
+                        (holding ?x_2 ?x_0)                                             ; hand segurando o shot
+                        (handEmpty ?x_3)                                                ; mao vazia
+                        (empty ?x_0)                                                    ; shot vazio
+                        (used ?x_0 ?x_1)                                                ; shot sujo da bebida 
                 )
                 :effect (and
-                        (clean ?x_0)
-                        (not (used ?x_0 ?x_1))
+                        (clean ?x_0)                                                    ; shot limpo
+                        (not (used ?x_0 ?x_1))                                          ; shot nao usado
                 )
         )
 
-        (:action drop
-                :parameters (?x_0 - hand ?x_1 - container)
-                :precondition (and
-                        (holding ?x_0 ?x_1)
+        (:action drop                                                                   ; largar o container
+                :parameters (?x_0 - hand ?x_1 - container)                              ; 1 mao e 1 container
+                :precondition (and                                                      
+                        (holding ?x_0 ?x_1)                                             ; mao segurando o container
                 )
                 :effect (and
-                        (ontable ?x_1)
-                        (handEmpty ?x_0)
-                        (not (holding ?x_0 ?x_1))
+                        (ontable ?x_1)                                                  ; container na mesa
+                        (handEmpty ?x_0)                                                ; mao vazia
+                        (not (holding ?x_0 ?x_1))                                       ; mao nao segurando container
                 )
         )
 
-        (:action empty-shaker
-                :parameters (?x_0 - hand ?x_1 - shaker ?x_2 - cocktail ?x_3 - level ?x_4 - level)
+        (:action empty-shaker                                                           ; esvaziar o shaker
+                :parameters (?x_0 - hand ?x_1 - shaker ?x_2 - cocktail ?x_3 - level ?x_4 - level)       ; 1 mao, 1 shaker, 1 coquetek e 2 niveis
                 :precondition (and
-                        (holding ?x_0 ?x_1)
-                        (contains ?x_1 ?x_2)
-                        (shaked ?x_1)
-                        (shakerEmptyLevel ?x_1 ?x_4)
-                        (shakerLevel ?x_1 ?x_3)
+                        (holding ?x_0 ?x_1)                                             ; mao segurando o coquetel
+                        (contains ?x_1 ?x_2)                                            ; shaker contem bebida
+                        (shaked ?x_1)                                                   ; shaker batido
+                        (shakerEmptyLevel ?x_1 ?x_4)                                    ; nivel 0 passado corretamente
+                        (shakerLevel ?x_1 ?x_3)                                         ; nivel atual correto
                 )
                 :effect (and
-                        (empty ?x_1)
-                        (unshaked ?x_1)
-                        (shakerLevel ?x_1 ?x_4)
-                        (not (contains ?x_1 ?x_2))
-                        (not (shakerLevel ?x_1 ?x_3))
-                        (not (shaked ?x_1))
+                        (empty ?x_1)                                                    ; shaker vazio
+                        (unshaked ?x_1)                                                 ; shaker nao batido
+                        (shakerLevel ?x_1 ?x_4)                                         ; shaker vazio
+                        (not (contains ?x_1 ?x_2))                                      ; shaker nao contem bebida
+                        (not (shakerLevel ?x_1 ?x_3))                                   
+                        (not (shaked ?x_1))                                             ; nao batido
                 )
         )
 
-        (:action empty-shot
-                :parameters (?x_0 - hand ?x_1 - shot ?x_2 - beverage)
+        (:action empty-shot                                                             ; esvaziar shot
+                :parameters (?x_0 - hand ?x_1 - shot ?x_2 - beverage)                   ; 1 mao, 1 shot e 1 bebida
                 :precondition (and
-                        (holding ?x_0 ?x_1)
-                        (contains ?x_1 ?x_2)
+                        (holding ?x_0 ?x_1)                                             ; mao segurando o shot
+                        (contains ?x_1 ?x_2)                                            ; shot contem bebida
                 )
                 :effect (and
-                        (empty ?x_1)
-                        (not (contains ?x_1 ?x_2))
+                        (empty ?x_1)                                                    ; shot vazio
+                        (not (contains ?x_1 ?x_2))                                      ; shot nao contem bebida
                 )
         )
 
-        (:action fill-shot
-                :parameters (?x_0 - shot ?x_1 - ingredient ?x_2 - hand ?x_3 - hand ?x_4 - dispenser)
+        (:action fill-shot                                                              ; encher o shot
+                :parameters (?x_0 - shot ?x_1 - ingredient ?x_2 - hand ?x_3 - hand ?x_4 - dispenser)    ; 1 shot, 1 ingredient, 2 maos, 1 dispenser
                 :precondition (and
-                        (holding ?x_2 ?x_0)
-                        (handEmpty ?x_3)
-                        (empty ?x_0)
-                        (clean ?x_0)
-                        (dispenses ?x_4 ?x_1)
+                        (holding ?x_2 ?x_0)                                             ; mao segura o shot
+                        (handEmpty ?x_3)                                                ; mao vazia
+                        (empty ?x_0)                                                    ; shot vazio
+                        (clean ?x_0)                                                    ; shot limpo
+                        (dispenses ?x_4 ?x_1)                                           ; dispenser contem ingrediente
                 )
                 :effect (and
-                        (contains ?x_0 ?x_1)
-                        (used ?x_0 ?x_1)
-                        (not (clean ?x_0))
-                        (not (empty ?x_0))
+                        (contains ?x_0 ?x_1)                                            ; shot contem ingrediente
+                        (used ?x_0 ?x_1)                                                ; shot usado
+                        (not (clean ?x_0))                                              ; shot sujo
+                        (not (empty ?x_0))                                              ; shot nao vazio
                 )
         )
 
-        (:action grasp
-                :parameters (?x_0 - hand ?x_1 - container)
+        (:action grasp                                                                  ; segurar um container
+                :parameters (?x_0 - hand ?x_1 - container)                              ; 1 mao e um container
                 :precondition (and
-                        (ontable ?x_1)
-                        (handEmpty ?x_0)
+                        (ontable ?x_1)                                                  ; container na mesa
+                        (handEmpty ?x_0)                                                ; mao vazia
                 )
                 :effect (and
-                        (holding ?x_0 ?x_1)
-                        (not (handEmpty ?x_0))
-                        (not (ontable ?x_1))
+                        (holding ?x_0 ?x_1)                                             ; segurndo container
+                        (not (handEmpty ?x_0))                                          ; mao nao vazia
+                        (not (ontable ?x_1))                                            ; container nao na mesa
                 )
         )
 
-        (:action pour-shaker-to-shot
+        (:action pour-shaker-to-shot                                                    ; despejar shaker no shot       
                 :parameters (?x_0 - cocktail ?x_1 - shot ?x_2 - hand ?x_3 - shaker ?x_4 - level ?x_5 - level)
                 :precondition (and
                         (holding ?x_2 ?x_3)
@@ -506,7 +506,7 @@
                 )
         )
 
-        (:action pour-shot-to-clean-shaker
+        (:action pour-shot-to-clean-shaker                                              ; adicionar shot no shaker limpo
                 :parameters (?x_0 - shot ?x_1 - ingredient ?x_2 - shaker ?x_3 - hand ?x_4 - level ?x_5 - level)
                 :precondition (and
                         (contains ?x_0 ?x_1)
@@ -528,7 +528,7 @@
                 )
         )
 
-        (:action pour-shot-to-used-shaker
+        (:action pour-shot-to-used-shaker                                               ; adicionar shot em um shaker ocupado
                 :parameters (?x_0 - shot ?x_1 - ingredient ?x_2 - shaker ?x_3 - hand ?x_4 - level ?x_5 - level)
                 :precondition (and
                         (contains ?x_0 ?x_1)
@@ -546,7 +546,7 @@
                 )
         )
 
-        (:action shake
+        (:action shake                                                                  ; misturar o coquetel
                 :parameters (?x_0 - cocktail ?x_1 - ingredient ?x_2 - ingredient ?x_3 - shaker ?x_4 - hand ?x_5 - hand)
                 :precondition (and
                         (handEmpty ?x_5)
