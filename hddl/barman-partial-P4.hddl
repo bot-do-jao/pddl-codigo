@@ -14,7 +14,6 @@
                 :subtasks
                 (and
                         (AchieveContainsShakerIngredient shaker1 ingredient2)
-                        (AchieveContainsShotCocktail shot1 cocktail1)
                 )
         )
         (:init
