@@ -90,3 +90,17 @@
 ;(poenoquartoduplo carla carla quarto-c2)
 
 ;time: 15.404228275 seconds
+
+
+;(pagaoquartoduplo quarto-c3)
+;(pagaoquartotriplo quarto-t1)
+;(poenoquartotriplo joana muhmene jose quarto-t1)
+;(pagaoquartotriplo quarto-t2)
+;(poenoquartotriplo paulo octavio gustavo quarto-t2)
+;(pagaoquartosimples quarto-s2)
+;(poenoquartosimples carla quarto-s2)
+;(poecasal jm larissa quarto-c3)
+;(pagaoquartoduplo quarto-c5)
+;(poecasal joao maria quarto-c5)
+
+;time: 17.409191395 seconds

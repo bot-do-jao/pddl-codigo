@@ -99,15 +99,13 @@
         )
     )
 
-    ;fazer açao que faz os outros se odiarem
-    ;fazer os quartos serem em numeros nao em tipos
-
     (:action POENOQUARTODUPLO
         :parameters ( ?h1 - hospede ?h2 - hospede ?q - quartoduplo)
         :precondition (and
             (= (ocupacaoD ?q) 0)
             (not (se-odeiam ?h1 ?h2))
             (not (se-odeiam ?h2 ?h1))
+            (not (= ?h1 ?h2))
             (not (e-casal ?h1))
             (not (e-casal ?h2))
             (quarto-pagoD ?q)
@@ -130,6 +128,9 @@
             (not (se-odeiam ?h3 ?h1))
             (not (se-odeiam ?h3 ?h2))
             (not (se-odeiam ?h2 ?h3))
+            (not (= ?h1 ?h2))
+            (not (= ?h1 ?h3))
+            (not (= ?h3 ?h2))
             (quarto-pagoT ?q)
             (not (alocado ?h1))
             (not (alocado ?h2))
@@ -160,6 +161,12 @@
             (not (se-odeiam ?h4 ?h2))
             (not (se-odeiam ?h3 ?h4))
             (not (se-odeiam ?h4 ?h3))
+            (not (= ?h1 ?h2))
+            (not (= ?h1 ?h3))
+            (not (= ?h1 ?h4))
+            (not (= ?h2 ?h3))
+            (not (= ?h2 ?h4))
+            (not (= ?h3 ?h4))
             (quarto-pagoQ ?q)
             (not (alocado ?h1))
             (not (alocado ?h2))
@@ -180,31 +187,31 @@
 
     ; coloque uma pessoa no quarto triplo
 
-    (:action POE1NOQUARTOTRIPLO
-        :parameters ( ?h1 - hospede ?q - quartotriplo)
-        :precondition (and (< (ocupacaoT ?q) 3)
-            (not (e-casal ?h1))
-            (quarto-pagoT ?q)
-            (not (alocado ?h1))
-        )
-        :effect (and (increase (ocupacaoT ?q) 1)
-            (alocado ?h1)
-        )
-    )
+;    (:action POE1NOQUARTOTRIPLO
+;        :parameters ( ?h1 - hospede ?q - quartotriplo)
+;        :precondition (and (< (ocupacaoT ?q) 3)
+;            (not (e-casal ?h1))
+;            (quarto-pagoT ?q)
+;            (not (alocado ?h1))
+;        )
+;        :effect (and (increase (ocupacaoT ?q) 1)
+;            (alocado ?h1)
+;        )
+;    )
 
     ; uma pessoa no quarto quadruplo
 
-    (:action POE1NOQUARTOQUADRUPLO
-        :parameters ( ?h1 - hospede ?q - quartoquadruplo)
-        :precondition (and (< (ocupacaoQ ?q) 0)
-            (not (e-casal ?h1))
-            (quarto-pagoQ ?q)
-            (not (alocado ?h1))
-        )
-        :effect (and (increase (ocupacaoQ ?q) 1)
-            (alocado ?h1)
-        )
-    )
+;    (:action POE1NOQUARTOQUADRUPLO
+;        :parameters ( ?h1 - hospede ?q - quartoquadruplo)
+;        :precondition (and (< (ocupacaoQ ?q) 0)
+;            (not (e-casal ?h1))
+;            (quarto-pagoQ ?q)
+;            (not (alocado ?h1))
+;        )
+;        :effect (and (increase (ocupacaoQ ?q) 1)
+;            (alocado ?h1)
+;        )
+;    )
 
 )
 
