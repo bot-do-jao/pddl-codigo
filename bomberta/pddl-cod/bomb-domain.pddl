@@ -32,7 +32,7 @@
         :parameters (?p - player ?e - enemy ?n - norte ?s - sul) 
         :precondition (and 
             (not (tem-bomba ?p - player))
-            (not (bloqueado-player-n ?p - player ?n - norte))
+            (not (bloqueado-player-n ?p - player ?n - norte)))
         :effect (and (move-cima-p ?p ?n)
             (move-baixo-e ?e ?s))
     )
