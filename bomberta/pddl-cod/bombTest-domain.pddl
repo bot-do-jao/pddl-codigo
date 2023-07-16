@@ -1,7 +1,7 @@
 (define (domain game)
   (:requirements :strips :typing :negative-preconditions)
   (:types
-    position player state bomb
+    position player state bomb direction
   )
   (:predicates
     (player-at ?pos - position)
@@ -11,13 +11,14 @@
     (box-at ?pos - position)
     (fragile-floor-at ?pos - position)
     (collapsed-floor-at ?pos - position)
-    (traversable ?pos - position)
+    (has-bomb ?p - player)
     (valid-move ?from - position ?to - position)
-    (adjacent ?pos - position ?adj - position)
+    (adjacent ?pos - position ?adj - position ?dir - direction)
     (win ?p - player)
-    (move-enemy)
-    (bomb-state ?state - state ?b - bomb)
-    (blast-state ?s - state)
+    (first-state ?b - bomb ?s - state)
+    (blast-state ?b - bomb ?s - state)
+    (second-state ?b - bomb ?s - state)
+    (blast ?s - state)
     (next-state ?s1 - state ?s2 - state)
 
   )
@@ -36,47 +37,110 @@
   )
 
   (:action place-bomb
-    :parameters (?pos - position)
-    :precondition (and (player-at ?pos) (not (bomb-at ?pos)) (not (enemy-at ?pos)) )
-    :effect (bomb-at ?pos)
+    :parameters (?pos - position ?bomb - bomb ?state - state ?p - player)
+    :precondition (and (player-at ?pos) (not (bomb-at ?pos)) (not (enemy-at ?pos))
+    )
+    :effect (and (bomb-at ?pos)
+      (first-state ?bomb ?state)
+      (has-bomb ?p))
   )
 
-  (:action move-player
-    :parameters (?from - position ?to - position )
-    :precondition (and (player-at ?from) (valid-move ?from ?to) )
+  (:action move-player-up
+    :parameters (?from_p ?to_p ?from_e ?to_e - position ?up ?down - direction)
+    :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p) (not (has-bomb ?p))
+      (enemy-at ?from_e) (adjacent ?from_p ?to_p ?up) (adjacent ?from_e ?to_e ?down))
     :effect (and
-      (not (player-at ?from))
-      (player-at ?to)
-      (not (fragile-floor-at ?from))
-      (collapsed-floor-at ?from)
-      (not (valid-move ?from ?to))
+      (not (player-at ?from_p))
+      (player-at ?to_p)
+      (not (enemy-at ?from_e))
+      (enemy-at ?to_e)
+
     )
   )
 
-  (:action move-enemy
-    :parameters (?from - position ?to - position ?dir - direction)
-    :precondition (and (enemy-at ?from) (valid-move ?from ?to) (opposite-direction ?dir ?prev))
+  (:action move-player-down
+    :parameters (?from_p ?to_p ?from_e ?to_e - position ?up ?down - direction)
+    :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p) (not (has-bomb ?p))
+      (enemy-at ?from_e) (adjacent ?from_p ?to_p ?down) (adjacent ?from_e ?to_e ?up))
     :effect (and
-      (not (enemy-at ?from))
-      (enemy-at ?to)
-      (not (fragile-floor-at ?from))
-      (collapsed-floor-at ?from)
-      (not (valid-move ?from ?to))
-      (not (opposite-direction ?prev ?dir))
-      (not (player-at ?to))
+      (not (player-at ?from_p))
+      (player-at ?to_p)
+      (not (enemy-at ?from_e))
+      (enemy-at ?to_e)
+
     )
   )
 
-  (:action move-enemy-blocked
-    :parameters (?pos - position ?dir - direction)
-    :precondition (and (enemy-at ?pos) (not (valid-move ?pos ?dir)))
-    :effect (and (not (opposite-direction ?prev ?dir)))
+  (:action move-player-left
+    :parameters (?from_p ?to_p ?from_e ?to_e - position ?left ?right - direction)
+    :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p) (not (has-bomb ?p))
+      (enemy-at ?from_e) (adjacent ?from_p ?to_p ?left) (adjacent ?from_e ?to_e ?right))
+    :effect (and
+      (not (player-at ?from_p))
+      (player-at ?to_p)
+      (not (enemy-at ?from_e))
+      (enemy-at ?to_e)
+
+    )
+  )
+
+  (:action move-player-right
+    :parameters (?from_p ?to_p ?from_e ?to_e - position ?left ?right - direction)
+    :precondition (and
+      (player-at ?from_p) (valid-move ?from_p ?to_p) (not (has-bomb ?p))
+      (enemy-at ?from_e) (adjacent ?from_p ?to_p ?right) (adjacent ?from_e ?to_e ?left))
+    :effect (and
+      (not (player-at ?from_p))
+      (player-at ?to_p)
+      (not (enemy-at ?from_e))
+      (enemy-at ?to_e)
+
+    )
   )
 
   (:action bomb-turn
-    :parameters (?pos - position)
-    :precondition (bomb-at ?pos)
-    :effect ( and 
-    )
+    :parameters (?pos - position ?bomb - bomb ?s1 ?s2 - state)
+    :precondition (and (bomb-at ?pos) or ((first-state ?b ?s1)
+        (second-state ?b ?s1)
+      ))
+    :effect ( next-state ?s1 ?s2)
+
   )
-)
+
+  (:action Bomb-Explode
+    :parameters (?pos ?adj1 ?adj2 ?adj3 ?adj4 - position ?bomb - bomb ?s - state)
+    :precondition (and (bomb-at ?pos) (blast-state ?bomb ?s) (blast ?s)
+      (adjacent ?pos ?adj1) (adjacent ?pos ?adj2)
+      (adjacent ?pos ?adj3) (adjacent ?pos ?adj4))
+    :effect (and (not (player-at ?pos))
+      (not (enemy-at ?pos))
+      (not (box-at ?pos))
+      (not (player-at ?adj1))
+      (not (enemy-at ?adj1))
+      (not (box-at ?adj1))
+      (not (player-at ?adj2))
+      (not (enemy-at ?adj2))
+      (not (box-at ?adj2))
+      (not (player-at ?adj3))
+      (not (enemy-at ?adj3))
+      (not (box-at ?adj3))
+      (not (player-at ?adj4))
+      (not (enemy-at ?adj4))
+      (not (box-at ?adj4))
+      (not (has-bomb ?p))
+      (not (bomb-at ?pos))
+    )
+
+  )
+
+  (:action floor-collaps
+    :parameters (?from ?to - position)
+    :precondition (and (player-at ?to)
+      (not (player-at ?from)
+        (fragile-floor-at ?from)))
+    :effect (and (collapsed-floor-at ?from)
+      (not (valid-move ?from ?to))
+      (not (valid-move ?to ?from))
+    )
+
+  )
