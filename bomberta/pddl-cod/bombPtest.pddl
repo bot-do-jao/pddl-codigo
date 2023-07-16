@@ -9,7 +9,7 @@
     )
     (:init
         ; Initial player positions
-        (player-at pos1 player1)
+        (player-at pos1)
 
         ; Initial bomb positions
 
@@ -25,6 +25,14 @@
         (adjacent pos3 pos2 dir4)
         (adjacent pos3 pos4 dir1)
         (adjacent pos4 pos3 dir2)
+        (valid-move pos1 pos2)
+        (valid-move pos2 pos1)
+        (valid-move pos2 pos3)
+        (valid-move pos3 pos2)
+        (valid-move pos3 pos4)
+        (valid-move pos4 pos3)
+        (valid-move pos1 pos4)
+        (valid-move pos4 pos1)
 
         ; Other initial conditions
         (treasure-at pos3)
