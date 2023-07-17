@@ -1,5 +1,5 @@
-(define (problem game-problem)
-  (:domain game)
+(define (problem bomb-problem)
+  (:domain bomb)
   (:objects
     p0x0y p0x1y p1x0y p1x1y p2x0y p2x1y p2x2y - position
     player1 - player
@@ -11,12 +11,6 @@
     (box-at p1x0y)
     (fragile-floor-at p0x1y)
 
-    (first-state s1)
-    (second-state s2)
-    (blast-state b3)
-    (blast b3)
-    (next-state s1 s2)
-    (next-state s2 b3)
     (valid-move p0x0y p0x1y)
     (valid-move p0x1y p1x1y)
     (valid-move p1x1y p2x1y)

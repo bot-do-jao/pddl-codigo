@@ -1,4 +1,4 @@
-(define (domain game)
+(define (domain bomb)
     (:requirements :strips :typing :negative-preconditions)
     (:types
         position player state bomb direction
@@ -7,6 +7,7 @@
     (:constants
         up down left right - direction
         s1 s2 s3 - state
+
     )
 
     (:predicates
@@ -91,13 +92,16 @@
         )
     )
 
-    (:action bomb-turn
+    (:action bomb-turn-one
         :parameters (?pos - position ?bomb - bomb)
-        :precondition (and (bomb-at ?pos) (or (first-state ?bomb s1) (second-state ?bomb s2)))
-        :effect (or (next-state s1 s2)
-            (next-state s2 s3))
+        :precondition (and (bomb-at ?pos) (first-state ?bomb s1))
+        :effect (next-state s1 s2)
     )
-
+    (:action bomb-turn-two
+        :parameters (?pos - position ?bomb - bomb)
+        :precondition (and (bomb-at ?pos) (second-state ?bomb s2))
+        :effect ( next-state s2 s3)
+    )
     (:action bomb-explode
         :parameters (?pos ?adj1 ?adj2 ?adj3 ?adj4 - position ?bomb - bomb ?p - player)
         :precondition (and (bomb-at ?pos) (blast-state ?bomb s3)
@@ -122,7 +126,6 @@
             (not (bomb-at ?pos))
         )
     )
-
     (:action floor-collapse
         :parameters (?from ?to - position)
         :precondition (and (player-at ?to) (not (player-at ?from)) (fragile-floor-at ?from))
