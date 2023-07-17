@@ -3,7 +3,6 @@
   (:objects
     p0x0y p0x1y p1x0y p1x1y p2x0y p2x1y p2x2y - position
     player1 - player
-    s1 s2 b3 - state
   )
   (:init
     (player-at p0x0y)
