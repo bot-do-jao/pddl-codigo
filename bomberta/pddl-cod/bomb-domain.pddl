@@ -3,6 +3,11 @@
     (:types
         position player state bomb direction
     )
+
+    (:constants
+        up down left right - direction
+    )
+
     (:predicates
         (player-at ?pos - position)
         (treasure-at ?pos - position)
@@ -37,9 +42,9 @@
     )
 
     (:action move-player-up
-        :parameters (?from_p ?to_p ?from_e ?to_e - position ?up ?down - direction)
+        :parameters (?from_p ?to_p ?from_e ?to_e - position )
         :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p)
-            (enemy-at ?from_e) (adjacent ?from_p ?to_p ?up) (adjacent ?from_e ?to_e ?down)
+            (enemy-at ?from_e) (adjacent ?from_p ?to_p up) (adjacent ?from_e ?to_e down)
             (not (enemy-at ?to_p)))
         :effect (and
             (not (player-at ?from_p))
@@ -50,9 +55,9 @@
     )
 
     (:action move-player-down
-        :parameters (?from_p ?to_p ?from_e ?to_e - position ?up ?down - direction)
+        :parameters (?from_p ?to_p ?from_e ?to_e - position )
         :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p)
-            (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p ?down) (adjacent ?from_e ?to_e ?up))
+            (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p down) (adjacent ?from_e ?to_e up))
         :effect (and
             (not (player-at ?from_p))
             (player-at ?to_p)
@@ -62,9 +67,9 @@
     )
 
     (:action move-player-left
-        :parameters (?from_p ?to_p ?from_e ?to_e - position ?left ?right - direction)
+        :parameters (?from_p ?to_p ?from_e ?to_e - position )
         :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p)
-            (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p ?left) (adjacent ?from_e ?to_e ?right))
+            (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p left) (adjacent ?from_e ?to_e right))
         :effect (and
             (not (player-at ?from_p))
             (player-at ?to_p)
@@ -74,10 +79,10 @@
     )
 
     (:action move-player-right
-        :parameters (?from_p ?to_p ?from_e ?to_e - position ?left ?right - direction)
+        :parameters (?from_p ?to_p ?from_e ?to_e - position )
         :precondition (and
             (player-at ?from_p) (valid-move ?from_p ?to_p)
-            (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p ?right) (adjacent ?from_e ?to_e ?left))
+            (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p right) (adjacent ?from_e ?to_e left))
         :effect (and
             (not (player-at ?from_p))
             (player-at ?to_p)
@@ -93,10 +98,10 @@
     )
 
     (:action bomb-explode
-        :parameters (?pos ?adj1 ?adj2 ?adj3 ?adj4 - position ?bomb - bomb ?s - state ?p - player ?up ?down ?left ?right - direction)
+        :parameters (?pos ?adj1 ?adj2 ?adj3 ?adj4 - position ?bomb - bomb ?s - state ?p - player   )
         :precondition (and (bomb-at ?pos) (blast-state ?bomb ?s) (blast ?s)
-            (adjacent ?pos ?adj1 ?up) (adjacent ?pos ?adj2 ?down)
-            (adjacent ?pos ?adj3 ?left) (adjacent ?pos ?adj4 ?right))
+            (adjacent ?pos ?adj1 up) (adjacent ?pos ?adj2 down)
+            (adjacent ?pos ?adj3 left) (adjacent ?pos ?adj4 right))
         :effect (and (not (player-at ?pos))
             (not (enemy-at ?pos))
             (not (box-at ?pos))

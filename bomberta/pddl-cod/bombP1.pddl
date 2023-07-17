@@ -2,7 +2,6 @@
   (:domain game)
   (:objects
     p0x0y p0x1y p1x0y p1x1y p2x0y p2x1y p2x2y - position
-    up down left right - direction
     player1 - player
     s1 s2 b3 - state
   )
