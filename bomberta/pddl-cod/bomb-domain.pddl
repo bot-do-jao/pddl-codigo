@@ -34,7 +34,7 @@
         :effect (and (not (treasure-at ?pos)) (win ?p))
     )
 
-    (:action place-bomb
+    (:action SOLTARBOMBA
         :parameters (?pos - position ?bomb - bomb ?p - player)
         :precondition (and (player-at ?pos) (not (bomb-at ?pos)) (not (enemy-at ?pos)) (not (has-bomb ?p)))
         :effect (and (bomb-at ?pos)
@@ -42,7 +42,7 @@
             (has-bomb ?p))
     )
 
-    (:action move-player-up
+    (:action CIMA
         :parameters (?from_p ?to_p ?from_e ?to_e - position)
         :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p)
             (enemy-at ?from_e) (adjacent ?from_p ?to_p up) (adjacent ?from_e ?to_e down)
@@ -55,7 +55,7 @@
         )
     )
 
-    (:action move-player-down
+    (:action BAIXO
         :parameters (?from_p ?to_p ?from_e ?to_e - position)
         :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p)
             (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p down) (adjacent ?from_e ?to_e up))
@@ -67,7 +67,7 @@
         )
     )
 
-    (:action move-player-left
+    (:action ESQUERDA
         :parameters (?from_p ?to_p ?from_e ?to_e - position)
         :precondition (and (player-at ?from_p) (valid-move ?from_p ?to_p)
             (enemy-at ?from_e) (not (enemy-at ?to_p)) (adjacent ?from_p ?to_p left) (adjacent ?from_e ?to_e right))
@@ -79,7 +79,7 @@
         )
     )
 
-    (:action move-player-right
+    (:action DIREITA
         :parameters (?from_p ?to_p ?from_e ?to_e - position)
         :precondition (and
             (player-at ?from_p) (valid-move ?from_p ?to_p)
