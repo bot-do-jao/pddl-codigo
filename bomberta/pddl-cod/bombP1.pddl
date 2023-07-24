@@ -40,6 +40,7 @@
 
   )
   (:goal
+  
     (win player1)
   )
 )
